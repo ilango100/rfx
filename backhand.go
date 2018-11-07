@@ -40,6 +40,9 @@ func backHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	if path == "." {
+		path = ""
+	}
 	list, err := listDir(path)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -47,6 +50,9 @@ func backHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if path == "" {
+		path = "Root"
+	}
 	err = templ.ExecuteTemplate(w, "files.html", View{
 		Title: path,
 		List:  list,

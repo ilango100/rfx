@@ -49,10 +49,6 @@ func init() {
 			finfo: st,
 		})
 	}
-	fmt.Println(drives)
-	for _, d := range drives {
-		fmt.Println(d.Name())
-	}
 }
 
 func pathify(path string) string {
