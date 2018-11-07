@@ -1,8 +1,13 @@
 package main
 
 import (
+	"encoding/json"
+	"os"
 	"os/user"
+	"path"
 )
+
+var set Settings
 
 //Settings allows changing preferences for the app
 type Settings struct {
@@ -17,4 +22,18 @@ func getHome() string {
 		return ""
 	}
 	return usr.HomeDir
+}
+
+func saveSettings() error {
+	savepath := path.Join(getHome(), "settings.json")
+	fl, err := os.Create(savepath)
+	if err != nil {
+		return err
+	}
+	jb, err := json.Marshal(set)
+	if err != nil {
+		return err
+	}
+	_, err = fl.Write(jb)
+	return err
 }
