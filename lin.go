@@ -3,6 +3,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"net/url"
 	"path/filepath"
 )
@@ -14,3 +15,5 @@ func pathify(path string) string {
 	}
 	return filepath.Clean(uri.Path)
 }
+
+var listDir = ioutil.ReadDir

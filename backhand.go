@@ -2,7 +2,6 @@ package main
 
 import (
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -41,7 +40,7 @@ func backHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	list, err := ioutil.ReadDir(path)
+	list, err := listDir(path)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
