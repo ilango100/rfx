@@ -30,10 +30,19 @@ func saveSettings() error {
 	if err != nil {
 		return err
 	}
-	jb, err := json.Marshal(set)
+	defer fl.Close()
+	jsn := json.NewEncoder(fl)
+	jsn.SetIndent("", " ")
+	return jsn.Encode(set)
+}
+
+func loadSettings() error {
+	savepath := path.Join(getHome(), "settings.json")
+	fl, err := os.Open(savepath)
 	if err != nil {
 		return err
 	}
-	_, err = fl.Write(jb)
-	return err
+	defer fl.Close()
+	jsn := json.NewDecoder(fl)
+	return jsn.Decode(&set)
 }
