@@ -1,10 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 //View defines single view of the page
@@ -27,6 +30,29 @@ func backHandler(w http.ResponseWriter, r *http.Request) {
 	if !finfo.IsDir() {
 		http.ServeFile(w, r, path)
 		return
+	}
+
+	if r.Method == http.MethodPost {
+		if err := r.ParseMultipartForm(1024 * 1024 * 512); err != nil {
+			log.Println(err)
+		}
+		fls, ok := r.MultipartForm.File["file"]
+		if !ok {
+			log.Println("file not found")
+		}
+		for i := range fls {
+			dfl, err := os.OpenFile(filepath.Join(path, fls[i].Filename), os.O_APPEND|os.O_CREATE, 0644)
+			if err != nil {
+				log.Println(err)
+			}
+			fl, err := fls[i].Open()
+			if err != nil {
+				fmt.Println(err)
+			}
+			io.Copy(dfl, fl)
+			fl.Close()
+			dfl.Close()
+		}
 	}
 
 	if templ == nil {
