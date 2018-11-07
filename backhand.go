@@ -2,7 +2,7 @@ package main
 
 import (
 	"html/template"
-	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 )
@@ -22,19 +22,23 @@ func backHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("Template cannot be read"))
+			log.Println(err)
 			return
 		}
 	}
 
-	list, err := ioutil.ReadDir(r.RequestURI[1:])
+	list, err := listDir(r.RequestURI)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 		return
 	}
 
-	templ.ExecuteTemplate(w, "files.html", View{
+	err = templ.ExecuteTemplate(w, "files.html", View{
 		Title: r.RequestURI[1:],
 		List:  list,
 	})
+	if err != nil {
+		log.Println(err)
+	}
 }
