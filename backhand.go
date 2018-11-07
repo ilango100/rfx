@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 )
 
@@ -19,8 +18,7 @@ var templ *template.Template
 
 func backHandler(w http.ResponseWriter, r *http.Request) {
 
-	uri, err := url.ParseRequestURI(r.RequestURI)
-	path := pathify(uri.Path)
+	path := pathify(r.RequestURI)
 	finfo, err := os.Stat(path)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
