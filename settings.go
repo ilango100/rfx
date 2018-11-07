@@ -25,7 +25,7 @@ func getHome() string {
 }
 
 func saveSettings() error {
-	savepath := path.Join(getHome(), "settings.json")
+	savepath := path.Join(getHome(), setfilename)
 	fl, err := os.Create(savepath)
 	if err != nil {
 		return err
@@ -37,7 +37,7 @@ func saveSettings() error {
 }
 
 func loadSettings() error {
-	savepath := path.Join(getHome(), "settings.json")
+	savepath := path.Join(getHome(), setfilename)
 	fl, err := os.Open(savepath)
 	if err != nil {
 		return err
