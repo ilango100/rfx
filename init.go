@@ -36,7 +36,14 @@ func firstStart() {
 			log.Fatalln("Cannot find MD5")
 		}
 	}
-	fmt.Printf("%#v", set)
+
+	fmt.Print("Port number to listen (80): ")
+	fmt.Scan(&set.Port)
+	if set.Port == 0 {
+		set.Port = 80
+	}
+
+	fmt.Printf("%#v\n", set)
 	if err := saveSettings(); err != nil {
 		log.Fatalln(err)
 	}

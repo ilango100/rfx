@@ -14,6 +14,7 @@ type Settings struct {
 	Auth    bool   `json:"auth"`
 	Pass    string `json:"pass"`
 	Backend bool   `json:"back"`
+	Port    int    `json:"port"`
 }
 
 func getHome() string {
