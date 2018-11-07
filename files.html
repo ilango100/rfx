@@ -11,11 +11,10 @@
 
     <h1>{{.Title}}</h1>
 
-    <ul>
-        {{range .List}}
-        <li>{{.Name}}</li>
-        {{end}}
-    </ul>
+    {{range .List}}
+    <a href="{{.Name}}{{- if .IsDir}}/{{end}}" {{- if not .IsDir}} download {{end}}>{{.Name}}{{- if .IsDir}}/{{end}}</a>
+    <br />
+    {{end}}
 
 </body>
 
