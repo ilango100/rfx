@@ -3,10 +3,9 @@
 package main
 
 import (
-	"io/ioutil"
-	"os"
+	"path/filepath"
 )
 
-func listDir(dir string) ([]os.FileInfo, error) {
-	return ioutil.ReadDir(dir)
+func pathify(path string) string {
+	return filepath.Clean(path)
 }
